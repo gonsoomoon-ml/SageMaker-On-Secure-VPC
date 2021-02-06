@@ -1,0 +1,15 @@
+# dotenv environment variables file
+.env
+.env.test
+
+# pycache
+__pycache__/
+ *.pyc
+
+### CDK-specific ignores ###
+*.swp
+cdk.context.json
+package-lock.json
+yarn.lock
+.cdk.staging
+cdk.out

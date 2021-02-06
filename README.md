@@ -19,6 +19,50 @@
             - 데이터를 S3에서 다운로드를 하여 사용합니다.
             
 ---
+## VPC 구성
+### 실행 환경
+* macOS 또는 Linux
+* Python3
+* AWS CDK (Cloud Development Kit)
+
+### AWS CDK 설치
+CDK 앱을 생성하고 관리하는 경우 AWS CDK CLI(명령줄 인터페이스)를 사용할 수 있습니다. 이 도구는 다음과 같이 빠르게 설치할 수 있습니다.
+```
+$ npm install -g aws-cdk
+```
+
+### Python 가상환경
+먼저, CDK를 실행할 수 있는 디렉토리로 이동합니다. 그리고 Python 가상환경을 실행합니다.
+```
+$ cd aws-cdk/python
+$ python3 -m venv .env
+$ source .env/bin/activate
+```
+
+### AWS CDK 필수요소 설치
+Python 가상환경에 필수 요소를 설치합니다.
+```
+$ pip install -r requirements.txt
+```
+
+### AWS CDK 실행
+#### AWS 자격증명
+[구성 및 자격 증명 파일 설정](https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/cli-configure-files.html)의 내용을 참고하여 AWS CDK를 수행할 준비를 합니다. 자격 증명 키를 터미널 환경 변수에 등록하거나 설정 파일에 저장하여 CDK가 적절하게 AWS 자원을 생성할 수 있도록 만들어 주어야합니다.
+
+#### VPC 생성
+```
+$ cd vpc
+$ cdk deploy --all
+```
+
+#### VPC Peering 생성
+상위 디렉토리로 빠져 나옵니다. 다음, peering 디렉토리로 이동합니다.
+아래와 같이 이전 단계에서 생성한 두 VPC의 ID를 파라메터로 지정합니다.
+```
+$ cd ../peering
+$ cdk deploy --parameters vpcId=vpc-xxxxxxxxxxxxxxxxx --parameters peerVpcId=vpc-yyyyyyyyyyyyyyyy --parameters peerVpcRegion=us-west-2
+```
+
 ## 노트북(코드) 구성
 아래왁 같이 순서대로 실행 하시면 됩니다.
 #### NoVPC Side (예: 서울 리젼)
@@ -33,3 +77,11 @@
 - 2.1.VPC-Train-Model.ipynb
 - 3.1.ALL-Deploy_Model.ipynb
 
+## VPC 제거
+### AWS CDK 실행
+```
+$ cd peering
+$ cdk destroy --all
+$ cd ../vpc
+$ cdk destroy --all
+```
