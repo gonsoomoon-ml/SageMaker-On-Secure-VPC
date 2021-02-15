@@ -20,6 +20,17 @@ class Vpc(core.Stack):
             ],
         )
         self.vpc_id = vpc.vpc_id
+        #self.add_vpc_endpoints(self, vpc=vpc)
+
+        # cloudformation outputs
+        core.CfnOutput(
+            self, "VPCID",
+            description="VPC ID",
+            value=vpc.vpc_id
+        )
+
+        self.output_props=props.copy()
+        self.output_props['vpc']=vpc
 
         # security group for vpc endpoint
         sg = ec2.SecurityGroup(
@@ -84,17 +95,9 @@ class Vpc(core.Stack):
             security_groups=[sg]
         )
 
-        # cloudformation outputs
-        core.CfnOutput(
-            self, "VPCID",
-            description = "VPC ID",
-            value = vpc.vpc_id
-        )
-
-        self.output_props = props.copy()
-        self.output_props['vpc']= vpc
-
     # pass objects to another stack
     @property
     def outputs(self):
         return self.output_props
+
+#    def add_vpc_endpoints(self, vpc, **kwargs):
