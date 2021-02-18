@@ -4,6 +4,7 @@ from aws_cdk import (
     core,
 )
 from vpc import Vpc
+from vpc import OnPremises
 from peering import VpcPeering
 
 props = {'namespace': 'default'}
@@ -14,7 +15,7 @@ app = core.App()
 
 # VPCs
 vpc_aws = Vpc(app, f"{props['namespace']}-aws", props, cidr="10.11.0.0/16", env=env)
-vpc_corp = Vpc(app, f"{props['namespace']}-corp", props, cidr="10.10.0.0/16", env=env)
+vpc_corp = OnPremises(app, f"{props['namespace']}-corp", props, cidr="10.10.0.0/16", env=env)
 
 props['vpc']=vpc_aws.outputs['vpc']
 props['peer_vpc']=vpc_corp.outputs['vpc']

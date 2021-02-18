@@ -19,15 +19,8 @@ class VpcPeering(core.Stack):
         )
         self.vpc_peer_ref=peering.ref
 
-        # cloudformation outputs
-        core.CfnOutput(
-            self, "VPCPEERINGID",
-            description = "VPC PEERING ID",
-            value = self.vpc_peer_ref
-        )
-
         self.output_props=props.copy()
-        self.output_props['vpc_peer_ref']=self.vpc_peer_ref
+        self.output_props['vpc_peer_ref']=peering.ref
 
         # peering route table
         ec2.CfnRoute(self, "route_to_peer_vpc",
