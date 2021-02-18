@@ -31,36 +31,14 @@ CDK 앱을 생성하고 관리하는 경우 AWS CDK CLI(명령줄 인터페이�
 $ npm install -g aws-cdk
 ```
 
-### Python 가상환경
-먼저, CDK를 실행할 수 있는 디렉토리로 이동합니다. 그리고 Python 가상환경을 실행합니다.
-```
-$ cd aws-cdk/python
-$ python3 -m venv .env
-$ source .env/bin/activate
-```
-
-### AWS CDK 필수요소 설치
-Python 가상환경에 필수 요소를 설치합니다.
-```
-$ pip install -r requirements.txt
-```
-
-### AWS CDK 실행
 #### AWS 자격증명
 [구성 및 자격 증명 파일 설정](https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/cli-configure-files.html)의 내용을 참고하여 AWS CDK를 수행할 준비를 합니다. 자격 증명 키를 터미널 환경 변수에 등록하거나 설정 파일에 저장하여 CDK가 적절하게 AWS 자원을 생성할 수 있도록 만들어 주어야합니다.
 
-#### VPC 생성
+### AWS CDK 실행
+먼저, CDK를 실행할 수 있는 디렉토리로 이동합니다. 그리고 VPC를 생성하는 코드를 실행합니다. 스크립트 안에서 Python 가상환경, 의존성 설치, CDK 실행을 수행합니다. 작업이 완료되면 VPC와 VPC Endpoint들, VPC Peering이 생성됩니다.
 ```
-$ cd vpc
-$ cdk deploy --all
-```
-
-#### VPC Peering 생성
-상위 디렉토리로 빠져 나옵니다. 다음, peering 디렉토리로 이동합니다.
-아래와 같이 이전 단계에서 생성한 두 VPC의 ID를 파라메터로 지정합니다.
-```
-$ cd ../peering
-$ cdk deploy --parameters vpcId=vpc-xxxxxxxxxxxxxxxxx --parameters peerVpcId=vpc-yyyyyyyyyyyyyyyy --parameters peerVpcRegion=us-west-2
+$ cd aws-cdk/python/vpc
+$ bash launch.sh
 ```
 
 ## 노트북(코드) 구성
@@ -80,8 +58,6 @@ $ cdk deploy --parameters vpcId=vpc-xxxxxxxxxxxxxxxxx --parameters peerVpcId=vpc
 ## VPC 제거
 ### AWS CDK 실행
 ```
-$ cd peering
-$ cdk destroy --all
-$ cd ../vpc
-$ cdk destroy --all
+$ cd aws-cdk/python/vpc
+$ bash cleanup.sh
 ```
