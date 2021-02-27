@@ -188,6 +188,9 @@ def main(args):
     logging.info("configuring model")
     model = keras_model_fn(args.learning_rate, args.weight_decay, args.optimizer, args.momentum)
     callbacks = []
+    
+    print("args.model_dir: ", args.model_dir)
+    print("args.model_output_dir: ", args.model_output_dir)    
 
 #     callbacks.append(ModelCheckpoint(args.model_dir + '/checkpoint-{epoch}.h5'))
     callbacks.append(ModelCheckpoint(args.model_output_dir + '/checkpoint-{epoch}.h5'))
